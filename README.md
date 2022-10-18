@@ -1,4 +1,6 @@
-# Getting Started with Create React App
+# Passing Thought
+
+## Description
 
 This is a solved project challenge from [Codecademy](www.codecademy.com).
 
