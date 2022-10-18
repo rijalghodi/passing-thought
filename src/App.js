@@ -1,25 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { AddThoughtForm } from "./AddThoughtForm";
+import { Thought } from "./Thought";
+import { generateId, getNewExpirationTime } from "./utilities";
 
-function App() {
+export default function App() {
+  const [thoughts, setThoughts] = useState([
+    {
+      id: generateId(),
+      text: "This is a place for your passing thoughts.",
+      expiresAt: getNewExpirationTime(),
+    },
+    {
+      id: generateId(),
+      text: "They'll be removed after 15 seconds.",
+      expiresAt: getNewExpirationTime(),
+    },
+  ]);
+
+  const addThought = (thought) => {
+    setThoughts((thoughts) => [thought, ...thoughts]);
+  };
+
+  const removeThought = (thoughtIdToRemove) => {
+    setThoughts((thoughts) => thoughts.filter((thought) => thought.id !== thoughtIdToRemove));
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <header>
+        <h1>Passing Thoughts</h1>
       </header>
+      <main>
+        <AddThoughtForm addThought={addThought} />
+        <ul className="thoughts">
+          {thoughts.map((thought) => (
+            <Thought key={thought.id} id={thought.id} thought={thought} removeThought={removeThought} />
+          ))}
+        </ul>
+      </main>
+      <footer className="copyright">
+        © <a href="https://rijalghodi.github.io">Rijal Ghodi </a>2022 All Rights Reserved
+      </footer>
     </div>
   );
 }
-
-export default App;
